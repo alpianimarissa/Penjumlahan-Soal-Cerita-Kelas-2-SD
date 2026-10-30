@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petualangan Matematika Chef Kiko - Soal Cerita Penjumlahan</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka & Nunito -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              yellow: '#FFD166',
+              orange: '#FF9F1C',
+              pink: '#EF476F',
+              teal: '#06D6A0',
+              blue: '#118AB2',
+              dark: '#073B4C',
+              light: '#FFF8F0'
+            }
+          },
+          fontFamily: {
+            fredoka: ['Fredoka', 'sans-serif'],
+            nunito: ['Nunito', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: #FFF8F0;
+      color: #073B4C;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Fredoka', cursive;
+    }
+    .custom-card {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 25px -5px rgba(255, 159, 28, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      border: 3px solid #FFE5B4;
+    }
+    .btn-bounce {
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .btn-bounce:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+    .btn-bounce:active {
+      transform: translateY(2px) scale(0.98);
+    }
+    /* Tab active styles */
+    .tab-active {
+      background-color: #FF9F1C !important;
+      color: white !important;
+      box-shadow: 0 4px 12px rgba(255, 159, 28, 0.4);
+    }
+    /* Custom bounce animation */
+    @keyframes gentle-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-gentle {
+      animation: gentle-bounce 2s infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- Header / Navigation Bar -->
+  <header class="bg-white border-b-4 border-brand-yellow sticky top-0 z-50 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+      <!-- Logo & Title -->
+      <div class="flex items-center gap-3">
+        <div class="bg-brand-yellow p-2.5 rounded-2xl text-2xl text-brand-dark animate-gentle">
+          👩‍🍳
+        </div>
+        <div>
+          <h1 class="text-xl md:text-2xl font-bold text-brand-dark leading-none">Petualangan Chef Kiko</h1>
+          <p class="text-xs font-semibold text-brand-orange mt-0.5">Penjumlahan Soal Cerita (Kelas 2 - 3 SD)</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex flex-wrap gap-1 md:gap-2 bg-amber-50 p-1.5 rounded-2xl border border-amber-200 text-xs md:text-sm font-bold">
+        <button onclick="switchTab('tujuan')" id="tab-tujuan" class="tab-btn px-3 py-1.5 rounded-xl transition text-slate-600 hover:text-brand-orange tab-active">
+          🎯 Tujuan
+        </button>
+        <button onclick="switchTab('warmup')" id="tab-warmup" class="tab-btn px-3 py-1.5 rounded-xl transition text-slate-600 hover:text-brand-orange">
+          🔥 Warm-up
+        </button>
+        <button onclick="switchTab('koneksi')" id="tab-koneksi" class="tab-btn px-3 py-1.5 rounded-xl transition text-slate-600 hover:text-brand-orange">
+          🥐 Dunia Nyata
+        </button>
+        <button onclick="switchTab('materi')" id="tab-materi" class="tab-btn px-3 py-1.5 rounded-xl transition text-slate-600 hover:text-brand-orange">
+          📖 Materi & Contoh
+        </button>
+        <button onclick="switchTab('latihan')" id="tab-latihan" class="tab-btn px-3 py-1.5 rounded-xl transition text-slate-600 hover:text-brand-orange">
+          ⭐ Latihan
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="max-w-4xl mx-auto px-4 py-6 w-full flex-grow">
+
+    <!-- 1. SEKSI TUJUAN PEMBELAJARAN -->
+    <section id="sec-tujuan" class="tab-content block">
+      <div class="custom-card p-6 md:p-8 text-center relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand-yellow/20 rounded-full blur-xl"></div>
+        <div class="inline-block bg-amber-100 text-brand-orange font-bold text-sm px-4 py-1.5 rounded-full mb-4">
+          Selamat Datang, Detektif Matematika! 🕵️‍♂️✨
+        </div>
+        <h2 class="text-2xl md:text-3xl font-bold text-brand-dark mb-4">Apa Misi Kita Hari Ini?</h2>
+        <p class="text-gray-600 text-base md:text-lg mb-8 max-w-2xl mx-auto">
+          Hari ini kita akan membantu <span class="font-bold text-brand-orange">Chef Kiko</span> mengelola Toko Roti Lezat! Untuk menjadi asisten Chef yang hebat, kamu akan mempelajari rahasia memecahkan soal cerita penjumlahan.
+        </p>
+
+        <!-- Cards Tujuan -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left mb-8">
+          <div class="p-4 rounded-2xl bg-orange-50 border-2 border-orange-200">
+            <div class="w-10 h-10 bg-brand-orange text-white rounded-xl flex items-center justify-center font-bold text-xl mb-3">1</div>
+            <h3 class="font-bold text-brand-dark mb-1">Mengenal Kata Kunci</h3>
+            <p class="text-xs text-gray-600">Menemukan kata rahasia penanda penjumlahan seperti "membeli lagi", "total", dan "gabungan".</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-teal-50 border-2 border-teal-200">
+            <div class="w-10 h-10 bg-brand-teal text-white rounded-xl flex items-center justify-center font-bold text-xl mb-3">2</div>
+            <h3 class="font-bold text-brand-dark mb-1">Ubah Jadi Kalimat MTK</h3>
+            <p class="text-xs text-gray-600">Mengubah cerita panjang menjadi kalimat matematika angka sederhana (contoh: 15 + 12 = ...).</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-pink-50 border-2 border-pink-200">
+            <div class="w-10 h-10 bg-brand-pink text-white rounded-xl flex items-center justify-center font-bold text-xl mb-3">3</div>
+            <h3 class="font-bold text-brand-dark mb-1">Menjawab Tepat</h3>
+            <p class="text-xs text-gray-600">Menghitung hasil akhir dengan teliti dan memberikan kesimpulan jawaban yang lengkap.</p>
+          </div>
+        </div>
+
+        <button onclick="switchTab('warmup')" class="btn-bounce bg-brand-orange hover:bg-amber-600 text-white font-bold text-lg px-8 py-3.5 rounded-2xl shadow-lg inline-flex items-center gap-2">
+          Mulai Pemanasan! <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. SEKSI WARM-UP (4 Soal) -->
+    <section id="sec-warmup" class="tab-content hidden">
+      <div class="custom-card p-6 md:p-8">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-dashed border-amber-200">
+          <div>
+            <span class="text-xs uppercase font-extrabold tracking-wider text-brand-orange">Tahap 1 dari 4</span>
+            <h2 class="text-2xl font-bold text-brand-dark">🔥 Warm-up: Pemanasan Otak</h2>
+          </div>
+          <div class="bg-amber-100 text-brand-dark font-extrabold px-4 py-2 rounded-xl text-sm" id="warmup-score">
+            Skor: 0 / 4
+          </div>
+        </div>
+
+        <p class="text-sm text-gray-600 mb-6">Yuk, ingatkan kembali ingatan penjumlahan dasarmu sebelum membantu Chef Kiko!</p>
+
+        <div id="warmup-container" class="space-y-6">
+          <!-- Quiz items generated by JS or static -->
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200" id="wu-q1">
+            <p class="font-bold text-base text-brand-dark mb-3">1. Berapakah hasil dari <span class="text-brand-orange font-extrabold">12 + 7</span> ?</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <button onclick="checkWarmup(1, 18, this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">18</button>
+              <button onclick="checkWarmup(1, 19, this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">19</button>
+              <button onclick="checkWarmup(1, 20, this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">20</button>
+              <button onclick="checkWarmup(1, 17, this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">17</button>
+            </div>
+            <div class="wu-feedback mt-2 text-sm font-bold hidden"></div>
+          </div>
+
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200" id="wu-q2">
+            <p class="font-bold text-base text-brand-dark mb-3">2. Mana yang hasilnya sama dengan <span class="text-brand-orange font-extrabold">25</span>?</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <button onclick="checkWarmup(2, '10+10', this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">10 + 10</button>
+              <button onclick="checkWarmup(2, '15+10', this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">15 + 10</button>
+              <button onclick="checkWarmup(2, '20+8', this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">20 + 8</button>
+              <button onclick="checkWarmup(2, '12+12', this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">12 + 12</button>
+            </div>
+            <div class="wu-feedback mt-2 text-sm font-bold hidden"></div>
+          </div>
+
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200" id="wu-q3">
+            <p class="font-bold text-base text-brand-dark mb-3">3. Kata mana yang biasanya berarti <span class="text-brand-pink font-extrabold">DITAMBAH (+)</span>?</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <button onclick="checkWarmup(3, 'Dimakan', this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">Dimakan</button>
+              <button onclick="checkWarmup(3, 'Sisa', this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">Sisa</button>
+              <button onclick="checkWarmup(3, 'Membeli lagi', this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">Membeli lagi</button>
+              <button onclick="checkWarmup(3, 'Hilang', this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">Hilang</button>
+            </div>
+            <div class="wu-feedback mt-2 text-sm font-bold hidden"></div>
+          </div>
+
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200" id="wu-q4">
+            <p class="font-bold text-base text-brand-dark mb-3">4. Chef Kiko punya 8 donat 🍩. Budi memberi 6 donat lagi. Berapa donat Chef Kiko sekarang?</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <button onclick="checkWarmup(4, 13, this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">13 Donat</button>
+              <button onclick="checkWarmup(4, 14, this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">14 Donat</button>
+              <button onclick="checkWarmup(4, 15, this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">15 Donat</button>
+              <button onclick="checkWarmup(4, 12, this)" class="wu-opt p-3 bg-white border-2 border-slate-200 rounded-xl font-bold hover:border-brand-yellow transition">12 Donat</button>
+            </div>
+            <div class="wu-feedback mt-2 text-sm font-bold hidden"></div>
+          </div>
+        </div>
+
+        <div id="warmup-next" class="mt-6 text-center hidden">
+          <button onclick="switchTab('koneksi')" class="btn-bounce bg-brand-teal hover:bg-teal-600 text-white font-bold text-lg px-8 py-3 rounded-2xl shadow-lg inline-flex items-center gap-2">
+            Hebat! Lanjut ke Koneksi Nyata <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SEKSI KONEKSI NYATA -->
+    <section id="sec-koneksi" class="tab-content hidden">
+      <div class="custom-card p-6 md:p-8">
+        <div class="text-center mb-6">
+          <span class="text-xs uppercase font-extrabold tracking-wider text-brand-pink">Kenapa Ini Penting?</span>
+          <h2 class="text-2xl md:text-3xl font-bold text-brand-dark">🥐 Matematika di Toko Roti Chef Kiko</h2>
+        </div>
+
+        <div class="bg-amber-50 p-6 rounded-2xl border-2 border-amber-200 mb-6 flex flex-col md:flex-row items-center gap-6">
+          <div class="text-6xl text-center md:text-left">👩‍🍳🧁</div>
+          <div class="text-sm md:text-base leading-relaxed text-gray-700">
+            "Halo sahabat kecil! Tahukah kamu? Setiap hari di toko roti, Chef Kiko selalu menggunakan <strong>soal cerita matematika</strong> tanpa disadari!"
+          </div>
+        </div>
+
+        <p class="font-bold text-brand-dark mb-4">Di mana saja matematika digunakan di toko roti?</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-white p-4 rounded-2xl border-2 border-slate-100 shadow-sm flex flex-col items-center text-center">
+            <div class="text-4xl mb-2">🍞</div>
+            <h4 class="font-bold text-brand-dark mb-1">Menghitung Stok Roti</h4>
+            <p class="text-xs text-gray-500">"Pagi ini ada 20 roti tawar. Lalu dibuat lagi 15 roti. Berapa totalnya?"</p>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border-2 border-slate-100 shadow-sm flex flex-col items-center text-center">
+            <div class="text-4xl mb-2">🛍️</div>
+            <h4 class="font-bold text-brand-dark mb-1">Pesanan Pembeli</h4>
+            <p class="text-xs text-gray-500">"Ibu beli 5 kue cokelat dan 4 kue keju. Berapa kue yang dibeli Ibu?"</p>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border-2 border-slate-100 shadow-sm flex flex-col items-center text-center">
+            <div class="text-4xl mb-2">🥚</div>
+            <h4 class="font-bold text-brand-dark mb-1">Bahan Masakan</h4>
+            <p class="text-xs text-gray-500">"Ada 10 telur di meja dan 12 telur di kulkas. Berapa telur semuanya?"</p>
+          </div>
+        </div>
+
+        <div class="bg-teal-50 border border-teal-200 rounded-2xl p-4 text-center mb-6">
+          <p class="text-brand-dark font-bold text-sm">
+            💡 Kesimpulan: Mempelajari soal cerita membuat kita pintar menyelesaikan masalah sehari-hari!
+          </p>
+        </div>
+
+        <div class="text-center">
+          <button onclick="switchTab('materi')" class="btn-bounce bg-brand-orange hover:bg-amber-600 text-white font-bold text-lg px-8 py-3 rounded-2xl shadow-lg inline-flex items-center gap-2">
+            Pelajari Rahasia Memecahkannya! <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SEKSI MATERI LENGKAP & CONTOH SOAL -->
+    <section id="sec-materi" class="tab-content hidden">
+      <div class="custom-card p-6 md:p-8 space-y-8">
+        
+        <!-- Judul Materi -->
+        <div>
+          <span class="text-xs uppercase font-extrabold tracking-wider text-brand-teal">Panduan Pintar</span>
+          <h2 class="text-2xl md:text-3xl font-bold text-brand-dark">3 Langkah Super Memecahkan Soal Cerita 🚀</h2>
+        </div>
+
+        <!-- 3 Langkah Kunci -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-amber-50 p-5 rounded-2xl border-2 border-amber-300">
+            <div class="text-brand-orange font-black text-xl mb-2">Langkah 1 🔍</div>
+            <h3 class="font-bold text-brand-dark mb-1">Cari Kata Kunci</h3>
+            <p class="text-xs text-gray-600 mb-2">Temukan kata rahasia yang menandakan penjumlahan:</p>
+            <div class="flex flex-wrap gap-1">
+              <span class="bg-amber-200 text-brand-dark text-[11px] font-bold px-2 py-0.5 rounded-md">Membeli lagi</span>
+              <span class="bg-amber-200 text-brand-dark text-[11px] font-bold px-2 py-0.5 rounded-md">Diberi</span>
+              <span class="bg-amber-200 text-brand-dark text-[11px] font-bold px-2 py-0.5 rounded-md">Total</span>
+              <span class="bg-amber-200 text-brand-dark text-[11px] font-bold px-2 py-0.5 rounded-md">Gabungan</span>
+              <span class="bg-amber-200 text-brand-dark text-[11px] font-bold px-2 py-0.5 rounded-md">Semuanya</span>
+            </div>
+          </div>
+
+          <div class="bg-blue-50 p-5 rounded-2xl border-2 border-blue-300">
+            <div class="text-brand-blue font-black text-xl mb-2">Langkah 2 ✏️</div>
+            <h3 class="font-bold text-brand-dark mb-1">Tulis Kalimat Matematika</h3>
+            <p class="text-xs text-gray-600 mb-2">Ambil angka-angkanya dan pasang tanda tambah (+):</p>
+            <div class="bg-white p-2 rounded-lg border border-blue-200 text-center text-xs font-bold text-brand-blue">
+              Angka Pertama + Angka Kedua = ...
+            </div>
+          </div>
+
+          <div class="bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-300">
+            <div class="text-brand-teal font-black text-xl mb-2">Langkah 3 🧮</div>
+            <h3 class="font-bold text-brand-dark mb-1">Hitung & Bikin Jadi</h3>
+            <p class="text-xs text-gray-600 mb-2">Hitung hasil penjumlahan dan tulis kalimat jawaban (Jadi,...):</p>
+            <div class="bg-white p-2 rounded-lg border border-emerald-200 text-center text-xs font-bold text-brand-teal">
+              "Jadi, jumlah seluruhnya adalah ..."
+            </div>
+          </div>
+        </div>
+
+        <!-- Contoh Soal Terstruktur -->
+        <div class="border-t-2 border-dashed border-slate-200 pt-6">
+          <div class="bg-gradient-to-r from-orange-500 to-amber-500 text-white p-4 rounded-t-2xl font-bold flex items-center gap-2">
+            <i class="fa-solid fa-star"></i> Contoh Soal Cerita Chef Kiko
+          </div>
+          <div class="bg-orange-50 border-x-2 border-b-2 border-orange-200 p-6 rounded-b-2xl space-y-4">
+            
+            <!-- Soal -->
+            <div class="bg-white p-4 rounded-xl border border-orange-200">
+              <p class="text-gray-800 text-base leading-relaxed">
+                👩‍🍳 <em>"Chef Kiko memanggang <strong>24 croissant</strong> rasa cokelat di pagi hari. Pada siang hari, Chef Kiko memanggang lagi <strong>15 croissant</strong> rasa keju. Berapa <strong>jumlah seluruh</strong> croissant yang dipanggang Chef Kiko?"</em>
+              </p>
+            </div>
+
+            <!-- Cara Penyelesaian -->
+            <div class="space-y-3 font-semibold text-xs md:text-sm">
+              <div class="flex items-start gap-2 bg-white/80 p-3 rounded-lg border border-amber-200">
+                <span class="bg-brand-orange text-white text-xs px-2 py-0.5 rounded font-bold">1. Diketahui</span>
+                <div>
+                  <p>• Croissant cokelat = 24</p>
+                  <p>• Croissant keju = 15</p>
+                  <p>• Kata kunci = <span class="bg-yellow-200 px-1 rounded">"jumlah seluruh"</span> (Penjumlahan / +)</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-2 bg-white/80 p-3 rounded-lg border border-amber-200">
+                <span class="bg-brand-blue text-white text-xs px-2 py-0.5 rounded font-bold">2. Kalimat MTK</span>
+                <p class="text-brand-blue font-extrabold text-base">24 + 15 = ...</p>
+              </div>
+
+              <div class="flex items-start gap-2 bg-white/80 p-3 rounded-lg border border-amber-200">
+                <span class="bg-brand-teal text-white text-xs px-2 py-0.5 rounded font-bold">3. Perhitungan</span>
+                <div>
+                  <p>Hitung bersusun pendek:</p>
+                  <div class="font-mono text-sm font-bold bg-slate-100 p-2 rounded mt-1 inline-block">
+                    &nbsp;&nbsp;24<br>
+                    <u>+ 15</u><br>
+                    &nbsp;&nbsp;<strong>39</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-emerald-100 text-emerald-900 p-3 rounded-xl border border-emerald-300 font-bold">
+                🎉 Jadi, jumlah seluruh croissant yang dipanggang Chef Kiko adalah <u>39 croissant</u>.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="text-center pt-4">
+          <button onclick="switchTab('latihan')" class="btn-bounce bg-brand-pink hover:bg-pink-600 text-white font-bold text-lg px-8 py-3.5 rounded-2xl shadow-lg inline-flex items-center gap-2">
+            Ayo Coba Latihan Mandiri! ⭐ <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. SEKSI LATIHAN SOAL TERBIMBING -->
+    <section id="sec-latihan" class="tab-content hidden">
+      <div class="custom-card p-6 md:p-8">
+        
+        <!-- Header Latihan -->
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-dashed border-slate-200">
+          <div>
+            <span class="text-xs uppercase font-extrabold tracking-wider text-brand-teal">Uji Kemampuanmu</span>
+            <h2 class="text-2xl font-bold text-brand-dark">⭐ Latihan Soal Terbimbing</h2>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="bg-amber-100 text-brand-orange font-black px-4 py-2 rounded-xl text-sm" id="practice-score-display">
+              ⭐ Skor: 0 / 100
+            </div>
+            <button onclick="resetPractice()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-3 py-2 rounded-xl transition">
+              <i class="fa-solid fa-rotate-right"></i> Ulangi
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigation Soal Latihan -->
+        <div class="flex items-center gap-2 mb-6 overflow-x-auto pb-2" id="practice-nav">
+          <!-- Button 1 to 3 JS generated -->
+        </div>
+
+        <!-- Area Soal Latihan -->
+        <div id="practice-card-container">
+          <!-- Soal akan di-render secara dinamis oleh JS -->
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-amber-200 py-4 text-center text-xs text-gray-500">
+    <p>Dibuat untuk Pembelajaran Interaktif Matematika SD kelas 2-3 • Toko Roti Chef Kiko 🧁</p>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // State Aplikasi
+    let currentWarmupScore = 0;
+    let warmupAnswered = {1: false, 2: false, 3: false, 4: false};
+
+    let currentPracticeIndex = 0;
+    let practiceAnswers = [
+      { answered: false, correct: false, userVal: '' },
+      { answered: false, correct: false, userVal: '' },
+      { answered: false, correct: false, userVal: '' }
+    ];
+    let totalPracticeScore = 0;
+
+    // Data Soal Latihan Terbimbing
+    const practiceQuestions = [
+      {
+        id: 1,
+        title: "Pesanan Muffin Cokelat & Stroberi",
+        story: "Chef Kiko menerima pesanan <b>32 muffin cokelat</b> dan <b>25 muffin stroberi</b> untuk pesta ulang tahun Tono.",
+        question: "Berapa total muffin yang harus dibuat Chef Kiko?",
+        num1: 32,
+        num2: 25,
+        ans: 57,
+        itemUnit: "muffin",
+        hint: "Tambahkan angka 32 dan 25. Ingat: hitung satuan dulu (2+5), lalu puluhan (3+2)."
+      },
+      {
+        id: 2,
+        title: "Persediaan Telur Toko Roti",
+        story: "Di lemari es toko roti terdapat <b>45 butir telur</b>. Pagi ini, paman mengantar <b>34 butir telur</b> lagi.",
+        question: "Berapakah jumlah seluruh telur yang ada di toko roti sekarang?",
+        num1: 45,
+        num2: 34,
+        ans: 79,
+        itemUnit: "butir telur",
+        hint: "Kata 'lagi' menandakan penjumlahan! Hitung 45 + 34."
+      },
+      {
+        id: 3,
+        title: "Donat Gula & Keju Laris",
+        story: "Hari ini Toko Chef Kiko berhasil menjual <b>53 donat gula</b> dan <b>42 donat keju</b>.",
+        question: "Berapa jumlah donat yang terjual seluruhnya hari ini?",
+        num1: 53,
+        num2: 42,
+        ans: 95,
+        itemUnit: "donat",
+        hint: "Jumlah seluruhnya = 53 + 42."
+      }
+    ];
+
+    // Functions Navigasi Tab
+    function switchTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(el => {
+        el.classList.add('hidden');
+        el.classList.remove('block');
+      });
+      // Deactivate all tab buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('tab-active');
+      });
+
+      // Show targeted tab
+      const targetSec = document.getElementById('sec-' + tabName);
+      if(targetSec) {
+        targetSec.classList.remove('hidden');
+        targetSec.classList.add('block');
+      }
+
+      // Activate target button
+      const targetBtn = document.getElementById('tab-' + tabName);
+      if(targetBtn) {
+        targetBtn.classList.add('tab-active');
+      }
+
+      // Scroll smoothly to top of content
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Checking Warmup Questions
+    function checkWarmup(qNum, selectedVal, btnElem) {
+      if(warmupAnswered[qNum]) return; // Prevent re-answering
+
+      const parent = document.getElementById('wu-q' + qNum);
+      const feedback = parent.querySelector('.wu-feedback');
+      const allBtns = parent.querySelectorAll('.wu-opt');
+
+      // Correct values mapping
+      const correctAnswers = { 1: 19, 2: '15+10', 3: 'Membeli lagi', 4: 14 };
+
+      let isCorrect = selectedVal === correctAnswers[qNum];
+
+      allBtns.forEach(b => b.classList.add('opacity-50', 'cursor-not-allowed'));
+
+      if(isCorrect) {
+        btnElem.classList.remove('opacity-50');
+        btnElem.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
+        feedback.textContent = "🎉 Hebat! Jawabanmu Tepat Sekali!";
+        feedback.className = "wu-feedback mt-2 text-sm font-bold text-emerald-600 block";
+        currentWarmupScore += 1;
+      } else {
+        btnElem.classList.remove('opacity-50');
+        btnElem.classList.add('bg-rose-500', 'text-white', 'border-rose-600');
+        feedback.textContent = `❌ Kurang tepat. Jawaban yang benar adalah ${correctAnswers[qNum]}.`;
+        feedback.className = "wu-feedback mt-2 text-sm font-bold text-rose-600 block";
+      }
+
+      warmupAnswered[qNum] = true;
+      document.getElementById('warmup-score').textContent = `Skor: ${currentWarmupScore} / 4`;
+
+      // Show next button if all answered
+      if(Object.values(warmupAnswered).every(v => v === true)) {
+        document.getElementById('warmup-next').classList.remove('hidden');
+        confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
+      }
+    }
+
+    // Render Practice Question
+    function renderPracticeNav() {
+      const navContainer = document.getElementById('practice-nav');
+      navContainer.innerHTML = '';
+
+      practiceQuestions.forEach((q, idx) => {
+        const isCurrent = idx === currentPracticeIndex;
+        const status = practiceAnswers[idx];
+
+        let badgeColor = 'bg-slate-100 text-slate-600';
+        if(status.answered) {
+          badgeColor = status.correct ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white';
+        } else if(isCurrent) {
+          badgeColor = 'bg-brand-orange text-white';
+        }
+
+        const btn = document.createElement('button');
+        btn.className = `px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${badgeColor}`;
+        btn.innerHTML = `Soal ${idx + 1} ${status.answered ? (status.correct ? '✓' : '✗') : ''}`;
+        btn.onclick = () => {
+          currentPracticeIndex = idx;
+          renderPracticeCard();
+          renderPracticeNav();
+        };
+        navContainer.appendChild(btn);
+      });
+    }
+
+    function renderPracticeCard() {
+      const container = document.getElementById('practice-card-container');
+      const q = practiceQuestions[currentPracticeIndex];
+      const status = practiceAnswers[currentPracticeIndex];
+
+      container.innerHTML = `
+        <div class="bg-amber-50/50 border-2 border-amber-200 rounded-2xl p-5 md:p-6 space-y-6">
+          
+          <!-- Soal Title & Story -->
+          <div>
+            <div class="flex items-center gap-2 text-xs font-bold text-brand-orange uppercase mb-1">
+              <span>📌 Soal Nomor ${q.id}</span>
+            </div>
+            <h3 class="text-xl font-bold text-brand-dark mb-3">${q.title}</h3>
+            <div class="bg-white p-4 rounded-xl border border-amber-200 text-gray-800 leading-relaxed text-sm md:text-base">
+              ${q.story}<br>
+              <strong class="text-brand-dark">${q.question}</strong>
+            </div>
+          </div>
+
+          <!-- Langkah Terbimbing -->
+          <div class="space-y-4">
+            <h4 class="font-bold text-sm text-brand-dark flex items-center gap-2">
+              <span>🛠️ Langkah Pengerjaan Terbimbing:</span>
+            </h4>
+
+            <!-- Step 1: Identifikasi -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs md:text-sm space-y-2">
+              <p class="font-bold text-brand-blue">1. Isilah angka yang ada pada cerita:</p>
+              <div class="flex flex-wrap items-center gap-2 text-gray-700">
+                <span>Angka pertama = <strong class="bg-amber-100 px-2 py-1 rounded">${q.num1}</strong></span>
+                <span>, Angka kedua = <strong class="bg-amber-100 px-2 py-1 rounded">${q.num2}</strong></span>
+              </div>
+            </div>
+
+            <!-- Step 2: Kalimat Matematika & Input Jawaban -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs md:text-sm space-y-3">
+              <p class="font-bold text-brand-pink">2. Tulis Kalimat Matematika & Hitung Hasilnya:</p>
+              
+              <div class="flex flex-wrap items-center gap-2 text-base font-bold text-brand-dark">
+                <span>${q.num1}</span>
+                <span class="text-brand-pink">+</span>
+                <span>${q.num2}</span>
+                <span>=</span>
+                <input 
+                  type="number" 
+                  id="user-input-ans" 
+                  value="${status.userVal}"
+                  placeholder="?" 
+                  ${status.answered ? 'disabled' : ''}
+                  class="w-24 p-2 text-center border-2 border-brand-orange rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-yellow font-extrabold text-lg text-brand-dark bg-amber-50"
+                />
+              </div>
+
+              <!-- Petunjuk / Hint -->
+              <div class="pt-2">
+                <button onclick="toggleHint()" class="text-xs text-brand-blue hover:underline font-bold flex items-center gap-1">
+                  💡 Butuh Petunjuk/Bantuan?
+                </button>
+                <div id="hint-box" class="hidden mt-2 p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900">
+                  ${q.hint}
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Button / Feedback -->
+            <div>
+              ${!status.answered ? `
+                <button onclick="submitPracticeAnswer()" class="btn-bounce w-full bg-brand-teal hover:bg-teal-600 text-white font-bold text-base py-3 rounded-xl shadow-md">
+                  Periksa Jawaban Saya ✨
+                </button>
+              ` : `
+                <div class="p-4 rounded-xl font-bold text-sm ${status.correct ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}">
+                  ${status.correct ? 
+                    `🎉 AWESOME! Jawabanmu Benar (${q.ans} ${q.itemUnit})!` : 
+                    `❌ Oops! Jawaban yang benar adalah <strong>${q.ans} ${q.itemUnit}</strong>.`}
+                  <p class="text-xs font-normal mt-1">
+                    Jadi, jumlah seluruhnya adalah ${q.ans} ${q.itemUnit}.
+                  </p>
+                </div>
+              `}
+            </div>
+
+          </div>
+
+          <!-- Bottom Navigation inside Question Card -->
+          <div class="flex justify-between items-center pt-2">
+            <button 
+              onclick="prevPractice()" 
+              class="px-4 py-2 bg-white border border-slate-300 rounded-xl font-bold text-xs hover:bg-slate-50 transition ${currentPracticeIndex === 0 ? 'opacity-40 cursor-not-allowed' : ''}"
+              ${currentPracticeIndex === 0 ? 'disabled' : ''}>
+              ← Soal Sebelumnya
+            </button>
+            
+            <button 
+              onclick="nextPractice()" 
+              class="px-4 py-2 bg-brand-orange text-white rounded-xl font-bold text-xs hover:bg-amber-600 transition ${currentPracticeIndex === practiceQuestions.length - 1 ? 'opacity-40 cursor-not-allowed' : ''}"
+              ${currentPracticeIndex === practiceQuestions.length - 1 ? 'disabled' : ''}>
+              Soal Selanjutnya →
+            </button>
+          </div>
+
+        </div>
+      `;
+    }
+
+    function toggleHint() {
+      const box = document.getElementById('hint-box');
+      if(box) box.classList.toggle('hidden');
+    }
+
+    function submitPracticeAnswer() {
+      const input = document.getElementById('user-input-ans');
+      if(!input || input.value.trim() === '') {
+        alert('Yuk masukkan dulu jawaban angkamu pada kotak ? !');
+        return;
+      }
+
+      const val = parseInt(input.value.trim());
+      const q = practiceQuestions[currentPracticeIndex];
+      const isCorrect = val === q.ans;
+
+      practiceAnswers[currentPracticeIndex] = {
+        answered: true,
+        correct: isCorrect,
+        userVal: val
+      };
+
+      if(isCorrect) {
+        confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 } });
+      }
+
+      calculateTotalScore();
+      renderPracticeCard();
+      renderPracticeNav();
+    }
+
+    function calculateTotalScore() {
+      let correctCount = practiceAnswers.filter(a => a.answered && a.correct).length;
+      totalPracticeScore = Math.round((correctCount / practiceQuestions.length) * 100);
+      document.getElementById('practice-score-display').textContent = `⭐ Skor: ${totalPracticeScore} / 100`;
+    }
+
+    function nextPractice() {
+      if(currentPracticeIndex < practiceQuestions.length - 1) {
+        currentPracticeIndex++;
+        renderPracticeCard();
+        renderPracticeNav();
+      }
+    }
+
+    function prevPractice() {
+      if(currentPracticeIndex > 0) {
+        currentPracticeIndex--;
+        renderPracticeCard();
+        renderPracticeNav();
+      }
+    }
+
+    function resetPractice() {
+      practiceAnswers = [
+        { answered: false, correct: false, userVal: '' },
+        { answered: false, correct: false, userVal: '' },
+        { answered: false, correct: false, userVal: '' }
+      ];
+      currentPracticeIndex = 0;
+      calculateTotalScore();
+      renderPracticeCard();
+      renderPracticeNav();
+    }
+
+    // Window Load Initialization
+    window.onload = function() {
+      renderPracticeNav();
+      renderPracticeCard();
+    };
+  </script>
+</body>
+</html>
