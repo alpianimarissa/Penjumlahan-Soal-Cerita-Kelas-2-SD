@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis 30 Soal Cerita Penjumlahan SD</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka & Nunito -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              yellow: '#FFD166',
+              orange: '#FF9F1C',
+              pink: '#EF476F',
+              teal: '#06D6A0',
+              blue: '#118AB2',
+              dark: '#073B4C',
+              light: '#FFF8F0'
+            }
+          },
+          fontFamily: {
+            fredoka: ['Fredoka', 'sans-serif'],
+            nunito: ['Nunito', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: #FFF8F0;
+      color: #073B4C;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Fredoka', cursive;
+    }
+    .custom-card {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 25px -5px rgba(255, 159, 28, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      border: 3px solid #FFE5B4;
+    }
+    .btn-bounce {
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .btn-bounce:hover {
+      transform: translateY(-2px) scale(1.01);
+    }
+    .btn-bounce:active {
+      transform: translateY(2px) scale(0.98);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-3 md:p-6">
+
+  <main class="max-w-3xl mx-auto w-full flex-grow">
+    
+    <!-- Header Kuis -->
+    <header class="custom-card p-5 mb-5 bg-white">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-amber-200 pb-4 mb-4">
+        <div class="flex items-center gap-3">
+          <div class="bg-brand-yellow p-3 rounded-2xl text-2xl text-brand-dark">
+            📝
+          </div>
+          <div>
+            <h1 class="text-xl md:text-2xl font-bold text-brand-dark">Kuis Soal Cerita Penjumlahan</h1>
+            <p class="text-xs font-semibold text-brand-orange">30 Soal Essay • SD Kelas 2-3</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="bg-amber-100 border border-amber-300 text-brand-orange font-black px-4 py-2 rounded-xl text-sm" id="score-display">
+            Nilai: 0 / 100
+          </div>
+          <button onclick="resetQuiz()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-3 py-2 rounded-xl transition">
+            <i class="fa-solid fa-rotate-right"></i> Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Info Auto Save -->
+      <div class="bg-blue-50 border border-blue-200 text-blue-900 rounded-xl p-3 text-xs flex items-center justify-between gap-2">
+        <span><i class="fa-solid fa-floppy-disk text-brand-blue mr-1"></i> Jawaban tersimpan otomatis. Kamu bisa mengulang soal yang salah sampai benar tanpa pengurangan nilai!</span>
+        <span class="font-extrabold text-brand-blue text-xs bg-white px-2.5 py-1 rounded-lg border border-blue-200" id="progress-text">0/30 Selesai</span>
+      </div>
+    </header>
+
+    <!-- Navigasi 30 Soal -->
+    <section class="custom-card p-4 mb-5 bg-white">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-xs font-bold text-gray-600">Pilih Nomor Soal:</span>
+        <div class="flex gap-2 text-[10px] font-bold">
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Benar</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-brand-orange inline-block"></span> Aktif</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-200 inline-block"></span> Belum</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-6 sm:grid-cols-10 gap-1.5 max-h-32 overflow-y-auto p-1" id="quiz-nav">
+        <!-- Grid nomor 1-30 -->
+      </div>
+    </section>
+
+    <!-- Card Soal Aktif -->
+    <section id="quiz-card-container">
+      <!-- Content di-render JS -->
+    </section>
+
+  </main>
+
+  <footer class="text-center py-4 text-xs text-gray-500">
+    Kuis Matematika Interaktif SD • 30 Soal Cerita Penjumlahan
+  </footer>
+
+  <script>
+    const TOTAL_SOAL = 30;
+    let currentIndex = 0;
+
+    // 30 Soal Cerita Tanpa Clue / Petunjuk Langkah Pengerjaan
+    const quizQuestions = [
+      {
+        id: 1,
+        title: "Kue Cupcake Chef Kiko",
+        story: "Chef Kiko membuat 25 cupcake vanilla di pagi hari. Lalu pada siang hari, ia membuat lagi 14 cupcake cokelat.",
+        question: "Berapa jumlah seluruh cupcake yang dibuat Chef Kiko?",
+        ans: 39,
+        unit: "cupcake"
+      },
+      {
+        id: 2,
+        title: "Koleksi Kelereng Budi",
+        story: "Budi memiliki 32 kelereng merah. Ayah membawakannya 23 kelereng biru dari luar kota.",
+        question: "Berapa total kelereng yang dimiliki Budi sekarang?",
+        ans: 55,
+        unit: "kelereng"
+      },
+      {
+        id: 3,
+        title: "Buku Cerita Perpustakaan",
+        story: "Di rak pertama terdapat 41 buku cerita hewan. Di rak kedua terdapat 35 buku cerita petualangan.",
+        question: "Berapa jumlah buku cerita di kedua rak tersebut?",
+        ans: 76,
+        unit: "buku"
+      },
+      {
+        id: 4,
+        title: "Panen Apel Siti",
+        story: "Siti memetik 18 apel hijau di kebun. Kakak membantu memetik 21 apel merah.",
+        question: "Berapa buah apel yang berhasil dipetik Siti dan Kakak seluruhnya?",
+        ans: 39,
+        unit: "buah apel"
+      },
+      {
+        id: 5,
+        title: "Penjualan Donat",
+        story: "Toko Kiko menjual 50 donat gula pada jam pertama. Pada jam berikutnya, terjual lagi 28 donat keju.",
+        question: "Berapa donat yang sudah terjual seluruhnya?",
+        ans: 78,
+        unit: "donat"
+      },
+      {
+        id: 6,
+        title: "Mainan Mobil Edo",
+        story: "Edo menyimpan 16 mobil mainan di dalam kotak. Ibu memberinya hadiah 13 mobil mainan baru.",
+        question: "Berapa banyak mobil mainan Edo seluruhnya?",
+        ans: 29,
+        unit: "mobil mainan"
+      },
+      {
+        id: 7,
+        title: "Permen Lolipop Lani",
+        story: "Lani punya 24 permen lolipop. Paman datang membawa 15 permen lolipop lagi.",
+        question: "Berapa jumlah permen lolipop Lani sekarang?",
+        ans: 39,
+        unit: "permen"
+      },
+      {
+        id: 8,
+        title: "Telur Adonan Roti",
+        story: "Kiko menyiapkan 36 butir telur ayam dan 22 butir telur bebek untuk adonan kue.",
+        question: "Berapa butir telur yang disiapkan Kiko seluruhnya?",
+        ans: 58,
+        unit: "butir telur"
+      },
+      {
+        id: 9,
+        title: "Jepitan Rambut Dayu",
+        story: "Dayu membeli 27 jepitan rambut pita. Sahabatnya memberi tambahan 12 jepitan rambut bunga.",
+        question: "Berapa total jepitan rambut milik Dayu?",
+        ans: 39,
+        unit: "jepitan rambut"
+      },
+      {
+        id: 10,
+        title: "Stiker Dinosaurus Beni",
+        story: "Beni menempelkan 45 stiker dinosaurus di buku. Hari ini ia menempelkan lagi 33 stiker robot.",
+        question: "Berapa stiker yang ditempelkan Beni seluruhnya?",
+        ans: 78,
+        unit: "stiker"
+      },
+      {
+        id: 11,
+        title: "Es Krim Segar",
+        story: "Kedai es krim menjual 34 es krim rasa cokelat dan 43 es krim rasa stroberi.",
+        question: "Berapa banyak es krim yang terjual dari kedua rasa tersebut?",
+        ans: 77,
+        unit: "es krim"
+      },
+      {
+        id: 12,
+        title: "Ikan Koki Akuarium",
+        story: "Di akuarium besar ada 22 ikan koki oranye. Ayah memasukkan lagi 17 ikan koki putih.",
+        question: "Berapa ekor ikan koki yang ada di akuarium sekarang?",
+        ans: 39,
+        unit: "ekor"
+      },
+      {
+        id: 13,
+        title: "Balok Warna-Warni",
+        story: "Mita menyusun 52 balok kayu merah dan 36 balok kayu kuning menjadi benteng.",
+        question: "Berapa banyak balok kayu yang digunakan Mita seluruhnya?",
+        ans: 88,
+        unit: "balok"
+      },
+      {
+        id: 14,
+        title: "Bunga Taman Sekolah",
+        story: "Siswa menanam 23 bunga mawar merah dan 25 bunga melati putih di halaman sekolah.",
+        question: "Berapa jumlah seluruh bunga yang ditanam?",
+        ans: 48,
+        unit: "bunga"
+      },
+      {
+        id: 15,
+        title: "Roti Pesanan Katering",
+        story: "Dapur Chef Kiko membuat 38 roti cokelat dan 41 roti keju untuk katering.",
+        question: "Berapa total roti yang dibuat dapur hari ini?",
+        ans: 79,
+        unit: "roti"
+      },
+      {
+        id: 16,
+        title: "Pensil Warna Doni",
+        story: "Doni punya 21 pensil warna. Kakak memberikan kotak baru berisi 24 pensil warna.",
+        question: "Berapa banyak pensil warna Doni seluruhnya?",
+        ans: 45,
+        unit: "pensil warna"
+      },
+      {
+        id: 17,
+        title: "Sedotan Minuman Boba",
+        story: "Di meja ada 33 sedotan kuning. Petugas menambah 26 sedotan hijau lagi.",
+        question: "Berapa jumlah seluruh sedotan yang ada di meja?",
+        ans: 59,
+        unit: "sedotan"
+      },
+      {
+        id: 18,
+        title: "Buah Jeruk Kebun",
+        story: "Paman memetik 44 jeruk di kebun barat dan 32 jeruk di kebun timur.",
+        question: "Berapa buah jeruk yang dipetik paman seluruhnya?",
+        ans: 76,
+        unit: "buah jeruk"
+      },
+      {
+        id: 19,
+        title: "Bola Pingpong Olahraga",
+        story: "Di gudang sekolah terdapat 15 bola pingpong putih dan 24 bola pingpong oranye.",
+        question: "Berapa total bola pingpong di gudang?",
+        ans: 39,
+        unit: "bola pingpong"
+      },
+      {
+        id: 20,
+        title: "Biskuit Renyah Tono",
+        story: "Tono membawa 26 biskuit cokelat dan 23 biskuit susu untuk piknik.",
+        question: "Berapa banyak biskuit yang dibawa Tono seluruhnya?",
+        ans: 49,
+        unit: "biskuit"
+      },
+      {
+        id: 21,
+        title: "Pita Hias Kado",
+        story: "Ibu memotong 31 cm pita merah dan 47 cm pita biru untuk menghias kado.",
+        question: "Berapa panjang total pita yang dipotong Ibu?",
+        ans: 78,
+        unit: "cm"
+      },
+      {
+        id: 22,
+        title: "Stiker Bintang Hadiah",
+        story: "Rani mendapat 19 stiker bintang di minggu pertama dan 20 stiker bintang di minggu kedua.",
+        question: "Berapa jumlah stiker bintang Rani seluruhnya?",
+        ans: 39,
+        unit: "stiker"
+      },
+      {
+        id: 23,
+        title: "Gelas Teh Boba",
+        story: "Toko Kiko menjual 42 gelas teh boba di siang hari dan 37 gelas di malam hari.",
+        question: "Berapa total gelas teh boba yang terjual?",
+        ans: 79,
+        unit: "gelas"
+      },
+      {
+        id: 24,
+        title: "Kartu Gambar Dino",
+        story: "Riko memiliki 28 kartu dino. Ia mendapat tambahan 31 kartu dino baru dari sepupunya.",
+        question: "Berapa banyak kartu dino milik Riko sekarang?",
+        ans: 59,
+        unit: "kartu"
+      },
+      {
+        id: 25,
+        title: "Pensil Kotak Kelas",
+        story: "Di dalam kotak terdapat 35 pensil kayu. Ibu Guru memasukkan lagi 24 pensil kayu.",
+        question: "Berapa jumlah pensil di dalam kotak sekarang?",
+        ans: 59,
+        unit: "pensil"
+      },
+      {
+        id: 26,
+        title: "Manik-Manik Gelang",
+        story: "Siti merangkai gelang menggunakan 17 manik-manik merah dan 22 manik-manik ungu.",
+        question: "Berapa buah manik-manik yang digunakan Siti seluruhnya?",
+        ans: 39,
+        unit: "manik-manik"
+      },
+      {
+        id: 27,
+        title: "Kismis Roti Manis",
+        story: "Chef Kiko menaburkan 54 kismis di kue pertama dan 33 kismis di kue kedua.",
+        question: "Berapa butir kismis yang ditaburkan Chef Kiko seluruhnya?",
+        ans: 87,
+        unit: "butir kismis"
+      },
+      {
+        id: 28,
+        title: "Krayon Bergambar",
+        story: "Di meja ada 14 krayon hijau. Dimas membawa 25 krayon biru lagi.",
+        question: "Berapa total krayon yang ada di meja sekarang?",
+        ans: 39,
+        unit: "krayon"
+      },
+      {
+        id: 29,
+        title: "Anak Ayam Peternakan",
+        story: "Di kandang A ada 46 anak ayam. Di kandang B ada 31 anak ayam.",
+        question: "Berapa ekor anak ayam di kedua kandang tersebut?",
+        ans: 77,
+        unit: "ekor"
+      },
+      {
+        id: 30,
+        title: "Kue Tart Ulang Tahun",
+        story: "Chef Kiko membuat 30 kue tart ukuran kecil dan 29 kue tart ukuran besar.",
+        question: "Berapa jumlah kue tart yang dibuat Chef Kiko seluruhnya?",
+        ans: 59,
+        unit: "kue tart"
+      }
+    ];
+
+    let userAnswers = [];
+
+    function initData() {
+      const saved = localStorage.getItem('kiko_quiz_no_clues_v1');
+      if (saved) {
+        try {
+          userAnswers = JSON.parse(saved);
+        } catch(e) {
+          createEmptyAnswers();
+        }
+      } else {
+        createEmptyAnswers();
+      }
+    }
+
+    function createEmptyAnswers() {
+      userAnswers = [];
+      for(let i = 0; i < TOTAL_SOAL; i++) {
+        userAnswers.push({
+          answered: false,
+          correct: false,
+          userVal: '',
+          attempts: 0
+        });
+      }
+      saveData();
+    }
+
+    function saveData() {
+      localStorage.setItem('kiko_quiz_no_clues_v1', JSON.stringify(userAnswers));
+    }
+
+    function renderNav() {
+      const navContainer = document.getElementById('quiz-nav');
+      navContainer.innerHTML = '';
+
+      quizQuestions.forEach((q, idx) => {
+        const isCurrent = idx === currentIndex;
+        const status = userAnswers[idx];
+
+        let badgeStyle = 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100';
+        
+        if (status.answered && status.correct) {
+          badgeStyle = 'bg-emerald-500 border-emerald-600 text-white font-black';
+        } else if (isCurrent) {
+          badgeStyle = 'bg-brand-orange border-amber-600 text-white font-black ring-2 ring-amber-300';
+        }
+
+        const btn = document.createElement('button');
+        btn.className = `h-8 rounded-lg text-xs border transition flex items-center justify-center ${badgeStyle}`;
+        btn.textContent = idx + 1;
+        btn.onclick = () => {
+          currentIndex = idx;
+          renderCard();
+          renderNav();
+        };
+        navContainer.appendChild(btn);
+      });
+
+      const completed = userAnswers.filter(a => a.answered && a.correct).length;
+      document.getElementById('progress-text').textContent = `${completed}/30 Selesai`;
+    }
+
+    function renderCard() {
+      const container = document.getElementById('quiz-card-container');
+      const q = quizQuestions[currentIndex];
+      const status = userAnswers[currentIndex];
+
+      container.innerHTML = `
+        <div class="custom-card p-5 md:p-7 space-y-6 bg-white">
+          
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-brand-orange uppercase">📌 Soal Nomor ${q.id} dari 30</span>
+              ${status.attempts > 0 ? `<span class="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-md border">Percobaan: ${status.attempts}x</span>` : ''}
+            </div>
+            <h2 class="text-xl md:text-2xl font-bold text-brand-dark mb-3">${q.title}</h2>
+            <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-200 text-gray-800 leading-relaxed text-base font-medium">
+              ${q.story}<br><br>
+              <strong class="text-brand-dark font-extrabold">${q.question}</strong>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+              <label class="block font-bold text-sm text-brand-dark">Jawaban Kamu (Angka saja):</label>
+              
+              <div class="flex items-center gap-3">
+                <input 
+                  type="number" 
+                  id="user-input-ans" 
+                  value="${status.userVal}"
+                  placeholder="Isi angka..." 
+                  ${(status.answered && status.correct) ? 'disabled' : ''}
+                  onkeydown="if(event.key==='Enter') submitAnswer()"
+                  class="w-36 p-3 text-center border-2 ${(status.answered && !status.correct) ? 'border-rose-400 bg-rose-50' : 'border-brand-orange bg-white'} rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-yellow font-black text-xl text-brand-dark"
+                />
+                <span class="text-sm font-bold text-gray-600">${q.unit}</span>
+              </div>
+            </div>
+
+            <!-- Umpan Balik Langsung -->
+            <div id="feedback-area">
+              ${status.answered ? `
+                <div class="p-4 rounded-2xl font-bold text-sm ${status.correct ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'} space-y-2">
+                  <div class="flex items-center gap-2 text-base">
+                    ${status.correct ? '🎉 JAWABAN BENAR!' : '❌ BELUM TEPAT!'}
+                  </div>
+                  <p class="text-xs font-semibold">
+                    ${status.correct ? 
+                      `Hebat! Jawaban tepat yaitu <strong>${q.ans} ${q.unit}</strong>.` : 
+                      `Jawaban (${status.userVal}) masih belum pas. Ayo hitung kembali dan coba jawab lagi!`
+                    }
+                  </p>
+                </div>
+              ` : ''}
+            </div>
+
+            <!-- Tombol Periksa -->
+            ${(!status.answered || !status.correct) ? `
+              <button onclick="submitAnswer()" class="btn-bounce w-full bg-brand-teal hover:bg-teal-600 text-white font-bold text-base py-3.5 rounded-2xl shadow-md flex items-center justify-center gap-2">
+                <i class="fa-solid fa-paper-plane"></i> Periksa Jawaban
+              </button>
+            ` : ''}
+
+          </div>
+
+          <!-- Navigasi Sebelum / Sesudah -->
+          <div class="flex justify-between items-center pt-3 border-t border-slate-200">
+            <button 
+              onclick="prevQuestion()" 
+              class="px-4 py-2.5 bg-slate-100 border border-slate-300 rounded-xl font-bold text-xs hover:bg-slate-200 transition flex items-center gap-1 ${currentIndex === 0 ? 'opacity-40 cursor-not-allowed' : ''}"
+              ${currentIndex === 0 ? 'disabled' : ''}>
+              ← Sebelum
+            </button>
+            
+            <button 
+              onclick="nextQuestion()" 
+              class="px-4 py-2.5 bg-brand-orange text-white rounded-xl font-bold text-xs hover:bg-amber-600 transition flex items-center gap-1 ${currentIndex === TOTAL_SOAL - 1 ? 'opacity-40 cursor-not-allowed' : ''}"
+              ${currentIndex === TOTAL_SOAL - 1 ? 'disabled' : ''}>
+              Selanjutnya →
+            </button>
+          </div>
+
+        </div>
+      `;
+    }
+
+    function submitAnswer() {
+      const input = document.getElementById('user-input-ans');
+      if(!input || input.value.trim() === '') {
+        alert('Mohon isi angka jawaban terlebih dahulu!');
+        return;
+      }
+
+      const val = parseInt(input.value.trim());
+      const q = quizQuestions[currentIndex];
+      const isCorrect = val === q.ans;
+
+      const currentStatus = userAnswers[currentIndex];
+
+      userAnswers[currentIndex] = {
+        answered: true,
+        correct: isCorrect,
+        userVal: val,
+        attempts: (currentStatus.attempts || 0) + 1
+      };
+
+      saveData();
+
+      if(isCorrect) {
+        confetti({ particleCount: 50, spread: 50, origin: { y: 0.6 } });
+      }
+
+      calculateScore();
+      renderCard();
+      renderNav();
+    }
+
+    function calculateScore() {
+      let correctCount = userAnswers.filter(a => a.answered && a.correct).length;
+      let totalScore = Math.round((correctCount / TOTAL_SOAL) * 100);
+      document.getElementById('score-display').textContent = `Nilai: ${totalScore} / 100`;
+    }
+
+    function nextQuestion() {
+      if(currentIndex < TOTAL_SOAL - 1) {
+        currentIndex++;
+        renderCard();
+        renderNav();
+      }
+    }
+
+    function prevQuestion() {
+      if(currentIndex > 0) {
+        currentIndex--;
+        renderCard();
+        renderNav();
+      }
+    }
+
+    function resetQuiz() {
+      if(confirm("Apakah kamu yakin ingin mereset seluruh kuis? Semua jawaban akan diulang dari awal.")) {
+        createEmptyAnswers();
+        currentIndex = 0;
+        calculateScore();
+        renderCard();
+        renderNav();
+      }
+    }
+
+    window.onload = function() {
+      initData();
+      calculateScore();
+      renderNav();
+      renderCard();
+    };
+  </script>
+</body>
+</html>
